@@ -1,0 +1,134 @@
+import("stdfaust.lib");
+
+map(val, xmin, xmax, ymin, ymax) = (val - xmin) * (ymax - ymin) / (xmax - xmin) + ymin;
+
+// kick macro params
+kickParams = hgroup("[0]kk_macros", (color, dec, noiseMod, drv))
+with {
+    color = hslider("[0]kk_color[style:knob]", 4.95, 0.98, 10, 0.01);
+    dec = hslider("[1]kk_decay[style:knob]", 0.108, 0.03, 0.8, 0.001);
+    noiseMod = hslider("[2]kk_noiseMod[style:knob]", 0.56, 0, 1, 0.01) * 6000;
+    drv = hslider("[3]kk_drive[style:knob]", 0.12, 0, 0.4, 0.01);
+};
+
+kickEngine(color, dec, noiseMod, drv, freq, gate) = withNoise : flt : ef.cubicnl(drv, 0) * lvl
+with {
+    // init dependency generators
+    amount = 60;
+    env = gate : en.ar(0.01, dec);
+    env2 = gate: en.ar(0.01, log10(exp(dec - 0.2)));
+    noise = no.pink_noise * env2;
+    modulatedNoise = noise * noiseMod;
+
+    // main kick sound generator
+    modulatorOsc = os.square((freq * color + noise * noiseMod) * env);
+    baseOsc(fr) = os.osc(fr + noise * noiseMod + modulatorOsc * 100 + env * 110) * env;
+    baseDrum = baseOsc(freq) + baseOsc(freq * 0.5);
+
+    // linear mix with noise
+    noiseMix = map(noiseMod, 0, 6000, 1, 0.5);
+    withNoise = baseDrum * noiseMix + noise * (1 - noiseMix);
+
+    // high pass filtering
+    flt = fi.highpass3e((amount - (amount - 20) * env)); 
+    lvl = 1 - drv;
+};
+
+
+kk(freq, gate) = kickParams, freq, gate : kickEngine;
+
+
+// snare macro params
+snrParams = hgroup("[0]snr_macros", (color, dec, noiseMod, drv))
+with {
+    color = hslider("[0]snr_color[style:knob]", 2.62, 1.5, 4, 0.01);
+    dec = hslider("[1]snr_dec[style:knob]", 0.16, 0.01, 0.6, 0.01);
+    noiseMod = hslider("[2]snr_noiseMod[style:knob]", 0.26, 0, 1, 0.01);
+    drv = hslider("[3]snr_drive[style:knob]", 0.06, 0, 0.4, 0.01);
+};
+
+
+snrEngine(color, dec, noiseMod, drv, freq, gate) = snrOsc(freq) : noise : ef.cubicnl(drv, 0) * lvl : fi.highpass6e(240)
+with {
+    env = gate : en.ar(0.01, dec / 2);
+    envMod = gate : en.ar(0.01, 0.1);
+    envNoise = gate : en.adsr(0.01, dec + 0.1, 0, dec);
+
+    snrOsc(baseFreq) = (car(baseFreq) + car(baseFreq * 1.5)) * env
+    with {
+        envFreq = 180;
+        nAmount = 1600;
+        pn = no.pink_noise * envMod;
+        car(baseFreq) = os.osc(baseFreq * mod(baseFreq) + envMod * envFreq + pn * nAmount);
+        mod(baseFreq) = os.osc(baseFreq * color + envMod * envFreq + pn * nAmount);
+    };
+
+    noise(base) = base * f + noise * (1 - f) * envNoise
+    with {
+        f = 1 - noiseMod;
+        noise = pn * (1 - noiseMod) + wn * noiseMod
+        with {
+            pn = no.pink_noise * envNoise;
+            wn = no.noise * envNoise;
+        };
+    };
+
+    lvl = 1 - drv;
+};
+
+snr(freq, gate) = snrParams, freq, gate : snrEngine;
+
+
+hhParams = hgroup("[0]hh_macros", (color, dec, noiseMod, drv))
+with {
+    color = hslider("[0]hh_color[style:knob]", 2160, 400, 4000, 0.01);
+    dec = hslider("[1]hh_decay[style:knob]", 0.108, 0.03, 0.8, 0.001);
+    noiseMod = hslider("[2]hh_noiseMod[style:knob]", 0.2, 0.2, 0.5, 0.01);
+    drv = hslider("[3]hh_drive[style:knob]", 0.12, 0, 0.4, 0.01);
+};
+
+hhEngine(color, dec, noiseMod, drv, freq, gate) = oscChain : withNoise : filter : * (env) : ef.cubicnl(drv, 0) * lvl : minmax
+with {
+    env = gate : en.ar(0.01, dec);
+    env2 = gate : en.ar(0.01, dec * 1.2);
+    env3 = gate : en.ar(0.01, dec * 0.2);
+
+    oscMod = os.osc(freq / 2) * color; 
+    oscFB(ratio) = + ~ (+(_,freq * ratio + oscMod + 100 * env3):os.osc) ~ (*(0.63));
+
+    oscChain = (oscFB(0.63) * 0.25 + oscFB(3) * 0.5 + oscFB(4.16) + oscFB(5.43) + oscFB(6.78)) / 4.5;
+    minmax = max(-1) : min(1);
+
+    withNoise(signal) = noise * noiseMod + signal * (1 - noiseMod)
+    with {
+        noise = no.noise * env2; 
+    };
+
+    filter = fi.bandpass(1, 5000, 19000) : fi.highpass3e(3000);
+    lvl = 1 - drv;
+};
+
+hh(freq, gate) = hhParams, freq, gate : hhEngine;
+
+cwblParams = hgroup("[0]cwbl_macros", (color, dec, detune))
+with {
+    color = hslider("[0]cwbl_color[style:knob]", 0.11, 0, 5, 0.01) * 1000;
+    dec = hslider("[1]cwbl_decay[style:knob]", 0.15, 0.03, 0.8, 0.001);
+    detune = hslider("[2]cwbl_detune[style:knob]", 7, 0, 100, 0.01);
+};
+
+cwblEngine(color, dec, detune, freq, gate) = (osc1 : flt1 + osc2) * env : cmp
+with {
+    modOsc = os.osc(440 + freq / 2);
+
+    env = gate : en.ar(0.02, dec);
+    env2 = gate : en.ar(0.02, dec / 2);
+
+    osc1 = os.sawtooth(freq + detune + modOsc * color + color / 100 * env2);
+    osc2 = os.sawtooth(freq * 1.5 - detune + modOsc * color);
+
+    flt1 = fi.lowpass3e(10000);
+    cmp = co.compressor_mono(8, -30, max(dec - 0.1, 0.05), 0.4);
+};
+
+cwbl(freq, gate) = cwblParams, freq, gate : cwblEngine;
