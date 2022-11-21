@@ -19,4 +19,4 @@ drums = hgroup("drums", vgroup("[0]kick", (kk_freq, kk_gate : drm.kk)),
                         vgroup("[2]hh", (hh_freq, hh_gate : drm.hh)),
                         vgroup("[3]cwbl", (cwbl_freq, cwbl_gate : drm.cwbl)));
 
-process = drums : mx.soundPipe;
+process = drums : mx.soundPipe <: _,_ ;

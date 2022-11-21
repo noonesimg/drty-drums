@@ -1451,7 +1451,7 @@ class mydsp : public dsp {
 		return 0;
 	}
 	virtual int getNumOutputs() {
-		return 1;
+		return 2;
 	}
 	
 	static void classInit(int sample_rate) {
@@ -2146,6 +2146,7 @@ class mydsp : public dsp {
 	
 	virtual void compute(int count, FAUSTFLOAT** RESTRICT inputs, FAUSTFLOAT** RESTRICT outputs) {
 		FAUSTFLOAT* output0 = outputs[0];
+		FAUSTFLOAT* output1 = outputs[1];
 		float fSlow0 = float(fHslider0);
 		float fSlow1 = 0.5f * fSlow0;
 		int iSlow2 = std::fabs(fSlow1) < 1.1920929e-07f;
@@ -2457,7 +2458,9 @@ class mydsp : public dsp {
 			float fTemp80 = ((fTemp79 > fRec1[1]) ? fSlow86 : fConst16);
 			fRec1[0] = fTemp79 * (1.0f - fTemp80) + fRec1[1] * fTemp80;
 			fRec0[0] = fSlow88 * (0.0f - 0.6666667f * std::max<float>(fSlow87 + 2e+01f * std::log10(std::max<float>(1.1754944e-38f, fRec1[0])), 0.0f)) + fSlow3 * fRec0[1];
-			output0[i0] = FAUSTFLOAT(fTemp78 * std::pow(1e+01f, 0.05f * fRec0[0]));
+			float fTemp81 = fTemp78 * std::pow(1e+01f, 0.05f * fRec0[0]);
+			output0[i0] = FAUSTFLOAT(fTemp81);
+			output1[i0] = FAUSTFLOAT(fTemp81);
 			iVec0[1] = iVec0[0];
 			fRec11[1] = fRec11[0];
 			fVec1[1] = fVec1[0];
