@@ -158,12 +158,40 @@ void DrtydrumsAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
         auto midiMsg = msg.getMessage();
         if (midiMsg.isNoteOn())
         {
-            fUI->setParamValue("cwbl_gate", 1);
-            break;
+            const int noteNum = midiMsg.getNoteNumber();
+
+            switch (noteNum) {
+            case 60:
+                fUI->setParamValue("kk_gate", 1);
+                break;
+            case 61:
+                fUI->setParamValue("snr_gate", 1);
+                break;
+            case 62:
+                fUI->setParamValue("hh_gate", 1);
+                break;
+            case 63:
+                fUI->setParamValue("cwbl_gate", 1);
+                break;
+            }
         }
         else if (midiMsg.isNoteOff()) {
-            fUI->setParamValue("cwbl_gate", 0);
-            break;
+            const int noteNum = midiMsg.getNoteNumber();
+
+            switch (noteNum) {
+            case 60:
+                fUI->setParamValue("kk_gate", 0);
+                break;
+            case 61:
+                fUI->setParamValue("snr_gate", 0);
+                break;
+            case 62:
+                fUI->setParamValue("hh_gate", 0);
+                break;
+            case 63:
+                fUI->setParamValue("cwbl_gate", 0);
+                break;
+            }
         }
     }
 }
