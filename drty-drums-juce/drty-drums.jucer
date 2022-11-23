@@ -4,7 +4,12 @@
               addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1">
   <MAINGROUP id="AJSm28" name="drty-drums">
     <GROUP id="{155A8596-D559-6F1D-B76F-6DB2F5A60B16}" name="Source">
-      <FILE id="fqXpSV" name="drumEngine.h" compile="0" resource="0" file="Source/drumEngine.h"/>
+      <GROUP id="{D344CDF5-DD3F-7CC2-E48A-6C9A59A00C6D}" name="DSP">
+        <FILE id="AgIsX8" name="DrumEngine.cpp" compile="1" resource="0" file="Source/DrumEngine.cpp"/>
+        <FILE id="ugpQrW" name="DrumEngine.h" compile="0" resource="0" file="Source/DrumEngine.h"/>
+        <FILE id="fqXpSV" name="DSP.h" compile="0" resource="0" file="Source/DSP.h"/>
+        <FILE id="cuLwtG" name="DSPParameters.h" compile="0" resource="0" file="Source/DSPParameters.h"/>
+      </GROUP>
       <FILE id="ksSDD2" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
       <FILE id="DNHvir" name="PluginProcessor.h" compile="0" resource="0"

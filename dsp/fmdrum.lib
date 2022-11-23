@@ -1,14 +1,15 @@
 import("stdfaust.lib");
 
 map(val, xmin, xmax, ymin, ymax) = (val - xmin) * (ymax - ymin) / (xmax - xmin) + ymin;
+mapOne(val, ymin, ymax) = map(val, 0, 1, ymin, ymax);
 
 // kick macro params
 kickParams = hgroup("[0]kk_macros", (color, dec, noiseMod, drv))
 with {
-    color = hslider("[0]kk_color[style:knob]", 4.95, 0.98, 10, 0.01);
-    dec = hslider("[1]kk_decay[style:knob]", 0.108, 0.03, 0.8, 0.001);
-    noiseMod = hslider("[2]kk_noiseMod[style:knob]", 0.56, 0, 1, 0.01) * 6000;
-    drv = hslider("[3]kk_drive[style:knob]", 0.12, 0, 0.4, 0.01);
+    color = mapOne(hslider("[0]kk_color[style:knob]", 0.4, 0, 1, 0.01), 0.98, 10);
+    dec =  mapOne(hslider("[1]kk_decay[style:knob]", 0.108, 0, 1, 0.001), 0.03, 0.8);
+    noiseMod = hslider("[2]kk_noise[style:knob]", 0.56, 0, 1, 0.01) * 6000;
+    drv =  mapOne(hslider("[3]kk_drive[style:knob]", 0.12, 0, 1, 0.01), 0, 0.4);
 };
 
 kickEngine(color, dec, noiseMod, drv, freq, gate) = withNoise : flt : ef.cubicnl(drv, 0) * lvl
@@ -41,10 +42,10 @@ kk(freq, gate) = kickParams, freq, gate : kickEngine;
 // snare macro params
 snrParams = hgroup("[0]snr_macros", (color, dec, noiseMod, drv))
 with {
-    color = hslider("[0]snr_color[style:knob]", 2.62, 1.5, 4, 0.01);
-    dec = hslider("[1]snr_dec[style:knob]", 0.16, 0.01, 0.6, 0.01);
-    noiseMod = hslider("[2]snr_noiseMod[style:knob]", 0.26, 0, 1, 0.01);
-    drv = hslider("[3]snr_drive[style:knob]", 0.06, 0, 0.4, 0.01);
+    color = mapOne(hslider("[0]snr_color[style:knob]", 0.1, 0, 1, 0.01), 1.5, 4);
+    dec = mapOne(hslider("[1]snr_decay[style:knob]", 0.16, 0, 1, 0.01), 0.01, 0.6);
+    noiseMod = hslider("[2]snr_noise[style:knob]", 0.26, 0, 1, 0.01);
+    drv = mapOne(hslider("[3]snr_drive[style:knob]", 0.06, 0, 1, 0.01), 0, 0.4);
 };
 
 
@@ -59,7 +60,7 @@ with {
         envFreq = 180;
         nAmount = 1600;
         pn = no.pink_noise * envMod;
-        car(baseFreq) = os.osc(baseFreq * mod(baseFreq) + envMod * envFreq + pn * nAmount);
+        car(baseFreq) = os.osc(baseFreq * mod(baseFreq) + envMod * color * envFreq + pn * nAmount * color);
         mod(baseFreq) = os.osc(baseFreq * color + envMod * envFreq + pn * nAmount);
     };
 
@@ -81,10 +82,10 @@ snr(freq, gate) = snrParams, freq, gate : snrEngine;
 
 hhParams = hgroup("[0]hh_macros", (color, dec, noiseMod, drv))
 with {
-    color = hslider("[0]hh_color[style:knob]", 2160, 400, 4000, 0.01);
-    dec = hslider("[1]hh_decay[style:knob]", 0.108, 0.03, 0.8, 0.001);
-    noiseMod = hslider("[2]hh_noiseMod[style:knob]", 0.2, 0.2, 0.5, 0.01);
-    drv = hslider("[3]hh_drive[style:knob]", 0.12, 0, 0.4, 0.01);
+    color = mapOne(hslider("[0]hh_color[style:knob]", 0.34, 0, 1, 0.01), 400, 4000);
+    dec = mapOne(hslider("[1]hh_decay[style:knob]", 0.038, 0, 1, 0.001), 0.03, 0.8);
+    noiseMod = mapOne(hslider("[2]hh_noise[style:knob]", 0.5, 0, 1, 0.01), 0.2, 0.5);
+    drv = mapOne(hslider("[3]hh_drive[style:knob]", 0.12, 0, 1, 0.01), 0, 0.4);
 };
 
 hhEngine(color, dec, noiseMod, drv, freq, gate) = oscChain : withNoise : filter : * (env) : ef.cubicnl(drv, 0) * lvl : minmax
@@ -112,9 +113,9 @@ hh(freq, gate) = hhParams, freq, gate : hhEngine;
 
 cwblParams = hgroup("[0]cwbl_macros", (color, dec, detune))
 with {
-    color = hslider("[0]cwbl_color[style:knob]", 0.11, 0, 5, 0.01) * 1000;
-    dec = hslider("[1]cwbl_decay[style:knob]", 0.15, 0.03, 0.8, 0.001);
-    detune = hslider("[2]cwbl_detune[style:knob]", 7, 0, 100, 0.01);
+    color = hslider("[0]cwbl_color[style:knob]", 0.05, 0, 1, 0.01) * 5000;
+    dec = mapOne(hslider("[1]cwbl_decay[style:knob]", 0.15, 0, 1, 0.001), 0.03, 0.8);
+    detune = hslider("[2]cwbl_detune[style:knob]", 0.07, 0, 1, 0.01) * 100;
 };
 
 cwblEngine(color, dec, detune, freq, gate) = (osc1 : flt1 + osc2) * env : cmp

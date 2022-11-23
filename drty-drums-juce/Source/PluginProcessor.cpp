@@ -9,6 +9,7 @@
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 #include "DrumEngine.h"
+#include "DSPParameters.h"
 
 //==============================================================================
 DrtydrumsAudioProcessor::DrtydrumsAudioProcessor()
@@ -94,24 +95,13 @@ void DrtydrumsAudioProcessor::changeProgramName (int index, const juce::String& 
 //==============================================================================
 void DrtydrumsAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
-    fDSP = new mydsp();
-    fDSP->init(sampleRate);
-    fUI = new MapUI();
-    fDSP->buildUserInterface(fUI);
-    outputs = new float* [2];
-    for (int ch = 0; ch < 2; ++ch) {
-        outputs[ch] = new float[samplesPerBlock];
-    }
+    drumEngine = new DrumEngine();
+    drumEngine->prepareToPlay(sampleRate, samplesPerBlock);
 }
 
 void DrtydrumsAudioProcessor::releaseResources()
 {
-    delete fDSP;
-    delete fUI;
-    for (int ch = 0; ch < 2; ++ch) {
-        delete[] outputs[ch];
-    }
-    delete[] outputs;
+    drumEngine->releaseResources();
 }
 
 #ifndef JucePlugin_PreferredChannelConfigurations
@@ -146,11 +136,11 @@ void DrtydrumsAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
 
-    fDSP->compute(buffer.getNumSamples(), NULL, outputs);
+    drumEngine->processBlock(buffer.getNumSamples());
 
     for (int channel = 0; channel < totalNumOutputChannels; ++channel) {
         for (int i = 0; i < buffer.getNumSamples(); i++) {
-            *buffer.getWritePointer(channel, i) = outputs[channel][i];
+            *buffer.getWritePointer(channel, i) = drumEngine->outputs[channel][i];
         }
     }
 
@@ -162,17 +152,13 @@ void DrtydrumsAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
 
             switch (noteNum) {
             case 60:
-                fUI->setParamValue("kk_gate", 1);
-                break;
+                drumEngine->setGate(KICK, 1); break;
             case 61:
-                fUI->setParamValue("snr_gate", 1);
-                break;
+                drumEngine->setGate(SNARE, 1); break;
             case 62:
-                fUI->setParamValue("hh_gate", 1);
-                break;
-            case 63:
-                fUI->setParamValue("cwbl_gate", 1);
-                break;
+                drumEngine->setGate(HIHAT, 1); break;
+            case 63: 
+                drumEngine->setGate(COWBELL, 1); break;
             }
         }
         else if (midiMsg.isNoteOff()) {
@@ -180,17 +166,13 @@ void DrtydrumsAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
 
             switch (noteNum) {
             case 60:
-                fUI->setParamValue("kk_gate", 0);
-                break;
-            case 61:
-                fUI->setParamValue("snr_gate", 0);
-                break;
+                drumEngine->setGate(KICK, 0); break;
+            case 61: 
+                drumEngine->setGate(SNARE, 0); break;
             case 62:
-                fUI->setParamValue("hh_gate", 0);
-                break;
-            case 63:
-                fUI->setParamValue("cwbl_gate", 0);
-                break;
+                drumEngine->setGate(HIHAT, 0); break;
+            case 63: 
+                drumEngine->setGate(COWBELL, 0); break;
             }
         }
     }

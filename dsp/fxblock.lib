@@ -1,5 +1,8 @@
 import("stdfaust.lib");
 
+map(val, xmin, xmax, ymin, ymax) = (val - xmin) * (ymax - ymin) / (xmax - xmin) + ymin;
+mapOne(val, ymin, ymax) = map(val, 0, 1, ymin, ymax);
+
 mixer(k, s, h, c) = hgroup("mix", (vslider("[0]kk_lvl", 1, 0, 1, 0.01) * k, 
                                    vslider("[1]snr_lvl", 1, 0, 1, 0.01) * s, 
                                    vslider("[2]hh_lvl", 1, 0, 1, 0.01) * h,
@@ -12,9 +15,9 @@ with {
 
     sends = hgroup("[0]sendfx", delay + rever 
     with {
-        reverControls = hgroup("[0]rever sends", hslider("[0]snr_rvb send[style:knob]", 0.1, 0, 1, 0.01), 
-                                               hslider("[1]hh_rvb send[style:knob]", 0.05, 0, 1, 0.01),
-                                               hslider("[2]cwbl_rvb send[style:knob]", 0.05, 0, 1, 0.01));
+        reverControls = hgroup("[0]rever sends", hslider("[0]snr_rvb[style:knob]", 0.1, 0, 1, 0.01), 
+                                               hslider("[1]hh_rvb[style:knob]", 0.05, 0, 1, 0.01),
+                                               hslider("[2]cwbl_rvb[style:knob]", 0.05, 0, 1, 0.01));
 
         reverMix(s_mix, h_mix, c_mix) = (s * s_mix + h * h_mix + c * c_mix);
         rever = reverControls : reverMix * 0.1 <: re.stereo_freeverb(0.95, 0.5, 0.2, 23) :> _ * 0.5;
@@ -28,8 +31,8 @@ with {
 
         delayEngine = hgroup("delay", (+:de.delay(ma.SR / d, ma.SR * d))~(*(fb))
         with {
-            d = hslider("delay[style:knob]", 2, 1, 5, 0.01);
-            fb = hslider("feedback[style:knob]", 0.4, 0, 0.8, 0.01);
+            d = mapOne(hslider("[0]del_ratio[style:knob]", 0.23, 0, 1, 0.01), 1, 5);
+            fb = hslider("[1]del_fb[style:knob]", 0.4, 0, 1, 0.01) * 0.85;
         });
 
         delay = delayControls : delayMix : delayEngine * 0.5;
@@ -37,7 +40,7 @@ with {
 
     masterFx = vgroup("[1]cmp", co.compressor_mono(3, -thrs, att, 0.4)
     with {
-        thrs = hslider("cmp_thrs", 12, 0, 30, 0.01);
+        thrs = hslider("cmp_thrs", 0.4, 0, 1, 0.01) * 30;
         att = hslider("cmp_att", 0.10, 0, 1, 0.01);
     });
 });

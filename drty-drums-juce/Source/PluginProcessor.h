@@ -9,13 +9,11 @@
 #pragma once
 
 #include <JuceHeader.h>
+#include "DrumEngine.h"
 
 //==============================================================================
 /**
 */
-class dsp;
-class MapUI;
-
 class DrtydrumsAudioProcessor  : public juce::AudioProcessor
                             #if JucePlugin_Enable_ARA
                              , public juce::AudioProcessorARAExtension
@@ -60,9 +58,7 @@ public:
     void setStateInformation (const void* data, int sizeInBytes) override;
 
 private:
-    MapUI* fUI;
-    dsp* fDSP;
-    float** outputs;
+    DrumEngine* drumEngine;
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (DrtydrumsAudioProcessor)
 };
