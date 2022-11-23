@@ -95,13 +95,16 @@ void DrtydrumsAudioProcessor::changeProgramName (int index, const juce::String& 
 //==============================================================================
 void DrtydrumsAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
-    drumEngine = new DrumEngine();
-    drumEngine->prepareToPlay(sampleRate, samplesPerBlock);
+    drumEngine.prepare(sampleRate, samplesPerBlock);
+    valueTreeState.addParameterListener(DSPParameterContants::kickGateParamID, &drumEngine);
+    valueTreeState.addParameterListener(DSPParameterContants::snareGateParamID, &drumEngine);
+    valueTreeState.addParameterListener(DSPParameterContants::hihatGateParamID, &drumEngine);
+    valueTreeState.addParameterListener(DSPParameterContants::cowbellGateParamID, &drumEngine);
 }
 
 void DrtydrumsAudioProcessor::releaseResources()
 {
-    drumEngine->releaseResources();
+    drumEngine.release();
 }
 
 #ifndef JucePlugin_PreferredChannelConfigurations
@@ -130,17 +133,23 @@ bool DrtydrumsAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts
 }
 #endif
 
+void DrtydrumsAudioProcessor::setAudioValueTreeStateParameter(const char* id, float value)
+{
+    juce::RangedAudioParameter* param = valueTreeState.getParameter(id);
+    param->setValueNotifyingHost(value);
+};
+
 void DrtydrumsAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
 {
     juce::ScopedNoDenormals noDenormals;
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
 
-    drumEngine->processBlock(buffer.getNumSamples());
+    drumEngine.processBlock(buffer.getNumSamples());
 
     for (int channel = 0; channel < totalNumOutputChannels; ++channel) {
         for (int i = 0; i < buffer.getNumSamples(); i++) {
-            *buffer.getWritePointer(channel, i) = drumEngine->outputs[channel][i];
+            *buffer.getWritePointer(channel, i) = drumEngine.outputs[channel][i];
         }
     }
 
@@ -152,13 +161,17 @@ void DrtydrumsAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
 
             switch (noteNum) {
             case 60:
-                drumEngine->setGate(KICK, 1); break;
+                setAudioValueTreeStateParameter(DSPParameterContants::kickGateParamID, 1);
+                break;
             case 61:
-                drumEngine->setGate(SNARE, 1); break;
+                setAudioValueTreeStateParameter(DSPParameterContants::snareGateParamID, 1);
+                break;
             case 62:
-                drumEngine->setGate(HIHAT, 1); break;
+                setAudioValueTreeStateParameter(DSPParameterContants::hihatGateParamID, 1);
+                break;
             case 63: 
-                drumEngine->setGate(COWBELL, 1); break;
+                setAudioValueTreeStateParameter(DSPParameterContants::cowbellGateParamID, 1);
+                break;
             }
         }
         else if (midiMsg.isNoteOff()) {
@@ -166,13 +179,17 @@ void DrtydrumsAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
 
             switch (noteNum) {
             case 60:
-                drumEngine->setGate(KICK, 0); break;
-            case 61: 
-                drumEngine->setGate(SNARE, 0); break;
+                setAudioValueTreeStateParameter(DSPParameterContants::kickGateParamID, 0);
+                break;
+            case 61:
+                setAudioValueTreeStateParameter(DSPParameterContants::snareGateParamID, 0);
+                break;
             case 62:
-                drumEngine->setGate(HIHAT, 0); break;
-            case 63: 
-                drumEngine->setGate(COWBELL, 0); break;
+                setAudioValueTreeStateParameter(DSPParameterContants::hihatGateParamID, 0);
+                break;
+            case 63:
+                setAudioValueTreeStateParameter(DSPParameterContants::cowbellGateParamID, 0);
+                break;
             }
         }
     }

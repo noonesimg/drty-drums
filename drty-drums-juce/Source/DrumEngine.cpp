@@ -11,7 +11,7 @@
 #include "DrumEngine.h"
 #include "DSP.h"
 
-void DrumEngine::prepareToPlay(double sampleRate, int samplesPerBlock)
+void DrumEngine::prepare(double sampleRate, int samplesPerBlock)
 {
     fDSP = new mydsp();
     fDSP->init(sampleRate);
@@ -23,7 +23,7 @@ void DrumEngine::prepareToPlay(double sampleRate, int samplesPerBlock)
     }
 }
 
-void DrumEngine::releaseResources()
+void DrumEngine::release()
 {
     delete fDSP;
     delete fUI;
@@ -38,19 +38,17 @@ void DrumEngine::processBlock(int numSamples)
     fDSP->compute(numSamples, NULL, outputs);
 }
 
-void DrumEngine::setGate(DrumVoices voice, float value)
+void DrumEngine::setParameter(const char * path, float value)
 {
-    switch (voice) {
-    case KICK:
-        fUI->setParamValue(DSPParameters::kick_gate, value); break;
-    case SNARE: 
-        fUI->setParamValue(DSPParameters::snare_gate, value); break;
-    case HIHAT: 
-        fUI->setParamValue(DSPParameters::hihat_gate, value); break;
-    case COWBELL: 
-        fUI->setParamValue(DSPParameters::cowbell_gate, value); break;
-    }
+    fUI->setParamValue(path, value);
+    
 }
+
+void DrumEngine::parameterChanged(const juce::String& parameterID, float newValue)
+{
+    fUI->setParamValue(parameterID.toStdString(), newValue);
+}
+
 
 
 

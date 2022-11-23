@@ -56,9 +56,18 @@ public:
     //==============================================================================
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
+    
+    void setAudioValueTreeStateParameter(const char* id, float value);
+public:
+    juce::AudioProcessorValueTreeState valueTreeState{ *this,
+                                                       nullptr,
+                                                       juce::Identifier("drty-drums"),
+                                                       DSPParameters::makeLayout() };
 
 private:
-    DrumEngine* drumEngine;
+
+    DSPParameters parameters{ valueTreeState };
+    DrumEngine drumEngine{ parameters };
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (DrtydrumsAudioProcessor)
 };

@@ -9,71 +9,128 @@
 */
 
 #pragma once
-namespace DSPParameters {
-	// gates
-	const auto kick_gate = "kk_gate";
-	const auto snare_gate = "snr_gate";
-	const auto hihat_gate = "hh_gate";
-	const auto cowbell_gate = "cwbl_gate";
 
-	// frequencies 
-	const auto kick_frequency = "kk_freq";
-	const auto snare_frequency = "snr_freq";
-	const auto hihat_frequency = "hh_freq";
-	const auto cowbell_frequency = "cwbl_freq";
+#include "../JuceLibraryCode/JuceHeader.h"
 
-	// kick macro parameters
-	const auto kick_color = "kk_color";
-	const auto kick_decay = "kk_decay";
-	const auto kick_noise = "kk_noiseMod";
-	const auto kick_drive = "kk_drive";
+namespace DSPParameterContants {
+	
+	constexpr auto gateParamName = "gate";
+	constexpr auto kickGateParamID = "kk_gate";
+	constexpr auto snareGateParamID = "snr_gate";
+	constexpr auto hihatGateParamID = "hh_gate";
+	constexpr auto cowbellGateParamID = "cwbl_gate";
+	
+	constexpr auto freqParamName = "freq";
+	constexpr auto kickFreqParamID = "kk_freq";
+	constexpr auto snareFreqParamID = "snr_freq";
+	constexpr auto hihatFreqParamID = "hh_freq";
+	constexpr auto cowbellFreqParamID = "cwbl_freq";
 
-	// snare macro parameters
-	const auto snare_color = "snr_color";
-	const auto snare_decay = "snr_dec";
-	const auto snare_noise = "snr_noiseMod";
-	const auto snare_drive = "snr_drive";
+	constexpr auto colorParamName = "color";
+	constexpr auto kickColorParamID = "kk_color";
+	constexpr auto sanreColorParamID = "snr_color";
+	constexpr auto hihatColorParamID = "hh_color";
+	constexpr auto cowbellColorParamID = "cwbl_color";
+	
+	constexpr auto decayParamName = "decay";
+	constexpr auto kickDecayParamID = "kk_decay";
+	constexpr auto sanreDecayParamID = "snr_decay";
+	constexpr auto hihatDecayParamID = "hh_decay";
+	constexpr auto cowbellDecayParamID = "cwbl_decay";
 
-	// hihat macro parameters
-	const auto hihat_color = "hh_color";
-	const auto hihat_decay = "hh_decay";
-	const auto hihat_noise = "hh_noiseMod";
-	const auto hihat_drive = "hh_drive";
+	constexpr auto noiseParamName = "noise";
+	constexpr auto kickNoiseParamID = "kk_noise";
+	constexpr auto sanreNoiseParamID = "snr_noise";
+	constexpr auto hihatNoiseParamID = "hh_noise";
 
-	// cowbell macro parameters
-	const auto cowbell_color = "cwbl_color";
-	const auto cowbell_decay = "cwbl_decay";
-	const auto cowbell_detune = "cwbl_detune";
+	constexpr auto driveParamName = "drive";
+	constexpr auto kickDriveParamID = "kk_drive";
+	constexpr auto sanreDriveParamID = "snr_drive";
+	constexpr auto hihatDriveParamID = "hh_drive";
 
+	constexpr auto detuneParamName = "detune";
+	constexpr auto cowbellDetuneParamID = "cwbl_detune";
 
-	// mixer levels 
-	const auto kick_level = "kk_lvl";
-	const auto snare_level = "snr_lvl";
-	const auto hihat_level = "hh_lvl";
-	const auto cowbell_level = "cwbl_lvl";
+	constexpr auto levelParamName = "level";
+	constexpr auto kickLevelParamID = "kk_lvl";
+	constexpr auto sanreLevelParamID = "snr_lvl";
+	constexpr auto hihatLevelParamID = "hh_lvl";
+	constexpr auto cowbellLevelParamID = "cwbl_lvl";
 
-	// reverb sends
-	const auto snare_reverb = "snr_rvb";
-	const auto hihat_reverb = "hh_rvb";
-	const auto cowbell_reverb = "cwbl_rvb";
+	constexpr auto reverbSendParamName = "reberb send";
+	constexpr auto snareReverbSendParamID = "snr_rvb";
+	constexpr auto hihatReverbSendParamID = "hh_rvb";
+	constexpr auto cowbellReverbSendParamID = "cwbl_rvb";
 
-	// delay sends
-	const auto snare_delay = "snr_del";
-	const auto hihat_delay = "hh_del";
-	const auto cowbell_delay = "cwbl_del";
+	constexpr auto delaySendParamName = "delay send";
+	constexpr auto snareDelaySendParamID = "snr_del";
+	constexpr auto hihatDelaySendParamID = "hh_del";
+	constexpr auto cowbellDelaySendParamID = "cwbl_del";
 
-	// delay parameters
-	const auto delay_period = "delay";
-	const auto delay_feedback = "feedback";
+	constexpr auto delayRatioParamName = "delay ratio";
+	constexpr auto delayRatioParamID = "del_ratio";
 
-	// master compressor
-	const auto compressor_threshold = "cmp_thrs";
-	const auto compressor_attack = "cmp_att";
+	constexpr auto delayFeedbackParamName = "delay feedback";
+	constexpr auto delayFeedbackParamID = "del_fb";
+
+	constexpr auto compressorThresholdParamName = "threshold";
+	constexpr auto compressorThresholdParamID = "cmp_thrs";
+
+	constexpr auto compressorAttackParamName = "attack";
+	constexpr auto compressorAttackParamID = "cmp_att";
 }
 
-enum DrumVoices {
-	KICK,
-	SNARE,
-	HIHAT,
-	COWBELL
+struct DSPParameters {
+	std::atomic<float>* kickGate = nullptr;
+	std::atomic<float>* snareGate = nullptr;
+	std::atomic<float>* hihatGate = nullptr;
+	std::atomic<float>* cowbellGate = nullptr;
+
+	std::atomic<float>* kickFreq = nullptr;
+	std::atomic<float>* snareFreq = nullptr;
+	std::atomic<float>* hihatFreq = nullptr;
+	std::atomic<float>* cowbellFreq = nullptr;
+
+	std::atomic<float>* kickColor = nullptr;
+	std::atomic<float>* snareColor = nullptr;
+	std::atomic<float>* hihatColor = nullptr;
+	std::atomic<float>* cowbellColor = nullptr;
+
+	std::atomic<float>* kickDecay = nullptr;
+	std::atomic<float>* snareDecay = nullptr;
+	std::atomic<float>* hihatDecay = nullptr;
+	std::atomic<float>* cowbellDecay = nullptr;
+
+	std::atomic<float>* kickNoise = nullptr;
+	std::atomic<float>* snareNoise = nullptr;
+	std::atomic<float>* hihatNoise = nullptr;
+
+	std::atomic<float>* kickDrive = nullptr;
+	std::atomic<float>* snareDrive = nullptr;
+	std::atomic<float>* hihatDrive = nullptr;
+
+	std::atomic<float>* cowbellDetune = nullptr;
+
+	std::atomic<float>* kickLevel = nullptr;
+	std::atomic<float>* snareLevel = nullptr;
+	std::atomic<float>* hihatLevel = nullptr;
+	std::atomic<float>* cowbellLevel = nullptr;
+
+	std::atomic<float>* snareReverbSend = nullptr;
+	std::atomic<float>* hihatReverbSend = nullptr;
+	std::atomic<float>* cowbellReverbSend = nullptr;
+
+	std::atomic<float>* snareDelaySend = nullptr;
+	std::atomic<float>* hihatDelaySend = nullptr;
+	std::atomic<float>* cowbellDelaySend = nullptr;
+
+	std::atomic<float>* delayRatio = nullptr;
+	std::atomic<float>* delayFeedback = nullptr;
+
+	std::atomic<float>* compThreshold = nullptr;
+	std::atomic<float>* compAttack = nullptr;
+
+	explicit DSPParameters(juce::AudioProcessorValueTreeState& valueTreeState);
+
+	static juce::AudioProcessorValueTreeState::ParameterLayout makeLayout();
 };
