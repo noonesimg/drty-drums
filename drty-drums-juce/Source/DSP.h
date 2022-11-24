@@ -1345,6 +1345,7 @@ class mydsp : public dsp {
 	float fRec94[2];
 	FAUSTFLOAT fHslider27;
 	FAUSTFLOAT fVslider3;
+	float fConst101;
 	float fRec1[2];
 	FAUSTFLOAT fHslider28;
 	float fRec0[2];
@@ -1479,7 +1480,7 @@ class mydsp : public dsp {
 		fConst13 = 2.0f * (1.1615164f - fConst11);
 		fConst14 = 0.8224459f - fConst7;
 		fConst15 = 1.0f / (fConst7 + 0.8224459f);
-		fConst16 = std::exp(0.0f - 2.5f / fConst0);
+		fConst16 = std::exp(0.0f - 5.0f / fConst0);
 		float fConst17 = 0.01f * fConst0;
 		fConst18 = std::max<float>(1.0f, fConst17);
 		fConst19 = 1.0f / fConst18;
@@ -1564,6 +1565,7 @@ class mydsp : public dsp {
 		iConst98 = std::min<int>(1024, std::max<int>(0, iConst93 + -1));
 		fConst99 = 3.1415927f / fConst0;
 		fConst100 = 25.0f * fConst0;
+		fConst101 = std::exp(0.0f - 2.5f / fConst0);
 	}
 	
 	virtual void instanceResetUserInterface() {
@@ -2277,7 +2279,7 @@ class mydsp : public dsp {
 			float fTemp14 = std::fabs(fTemp13);
 			float fTemp15 = ((fTemp14 > fRec13[1]) ? fSlow21 : fConst16);
 			fRec13[0] = fTemp14 * (1.0f - fTemp15) + fRec13[1] * fTemp15;
-			fRec12[0] = fSlow22 * (0.0f - 0.875f * std::max<float>(2e+01f * std::log10(std::max<float>(1.1754944e-38f, fRec13[0])) + 3e+01f, 0.0f)) + fSlow8 * fRec12[1];
+			fRec12[0] = fSlow22 * (0.0f - 0.875f * std::max<float>(2e+01f * std::log10(std::max<float>(1.1754944e-38f, fRec13[0])) + 25.0f, 0.0f)) + fSlow8 * fRec12[1];
 			float fTemp16 = fTemp13 * std::pow(1e+01f, 0.05f * fRec12[0]);
 			fVec4[0] = fSlow25;
 			iRec23[0] = (iRec23[1] + (iRec23[1] > 0)) * (fSlow25 <= fVec4[1]) + (fSlow25 > fVec4[1]);
@@ -2461,7 +2463,7 @@ class mydsp : public dsp {
 			float fTemp78 = std::max<float>(-1.0f, std::min<float>(1.0f, fSlow86 * fRec94[0]));
 			float fTemp79 = fSlow23 * fTemp16 + fSlow87 * fTemp78 * (1.0f - 0.33333334f * mydsp_faustpower2_f(fTemp78)) + fSlow72 * fTemp43 + fSlow44 * fTemp31 + 0.5f * (fRec93[0] + fRec2[1] + fRec69[1] + fRec70 + fRec3);
 			float fTemp80 = std::fabs(fTemp79);
-			float fTemp81 = ((fTemp80 > fRec1[1]) ? fSlow89 : fConst16);
+			float fTemp81 = ((fTemp80 > fRec1[1]) ? fSlow89 : fConst101);
 			fRec1[0] = fTemp80 * (1.0f - fTemp81) + fRec1[1] * fTemp81;
 			fRec0[0] = fSlow91 * (0.0f - 0.6666667f * std::max<float>(fSlow90 + 2e+01f * std::log10(std::max<float>(1.1754944e-38f, fRec1[0])), 0.0f)) + fSlow3 * fRec0[1];
 			float fTemp82 = fTemp79 * std::pow(1e+01f, 0.05f * fRec0[0]);

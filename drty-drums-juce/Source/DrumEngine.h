@@ -16,8 +16,10 @@ public:
 	void processBlock(int numSamples);
 
 	void setParameter(const char* path, float value);
+	float getParameter(const char* path);
 
 	void parameterChanged(const juce::String& parameterID, float newValue) override;
+
 
 	float** outputs;
 

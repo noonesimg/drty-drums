@@ -104,11 +104,11 @@ void DrtydrumsAudioProcessorEditor::addKnobToSection(const char* paramId, Sectio
     slider->setSliderStyle(juce::Slider::RotaryVerticalDrag);
     slider->setTextBoxStyle(juce::Slider::NoTextBox, false, 0, 0);
     slider->setRange(0, 1, 0.01);
+    section.addItem(slider);
 
     sliderAttachments.push_back(std::make_unique<SliderAttachment>(audioProcessor.valueTreeState, paramId, *slider));
     audioProcessor.valueTreeState.addParameterListener(paramId, &audioProcessor.drumEngine);
-
-    section.addItem(slider);
+    slider->setValue(audioProcessor.drumEngine.getParameter(paramId));
 }
 
 void DrtydrumsAudioProcessorEditor::addSliderToSection(const char* paramId, Section& section)
@@ -118,11 +118,11 @@ void DrtydrumsAudioProcessorEditor::addSliderToSection(const char* paramId, Sect
     slider->setSliderStyle(juce::Slider::LinearVertical);
     slider->setTextBoxStyle(juce::Slider::NoTextBox, false, 0, 0);
     slider->setRange(0, 1, 0.01);
+    section.addItem(slider);
 
     sliderAttachments.push_back(std::make_unique<SliderAttachment>(audioProcessor.valueTreeState, paramId, *slider));
     audioProcessor.valueTreeState.addParameterListener(paramId, &audioProcessor.drumEngine);
-
-    section.addItem(slider);
+    slider->setValue(audioProcessor.drumEngine.getParameter(paramId));
 }
 
 DrtydrumsAudioProcessorEditor::~DrtydrumsAudioProcessorEditor()

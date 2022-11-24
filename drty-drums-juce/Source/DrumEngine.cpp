@@ -43,6 +43,11 @@ void DrumEngine::setParameter(const char * path, float value)
     fUI->setParamValue(path, value);
 }
 
+float DrumEngine::getParameter(const char* path)
+{
+    return fUI->getParamValue(path);
+}
+
 void DrumEngine::parameterChanged(const juce::String& parameterID, float newValue)
 {
     std::string paramId = parameterID.toStdString();

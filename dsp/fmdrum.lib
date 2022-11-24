@@ -129,7 +129,7 @@ with {
     osc2 = os.sawtooth(freq * 1.5 - detune + modOsc * color);
 
     flt1 = fi.lowpass3e(10000);
-    cmp = co.compressor_mono(8, -30, max(dec - 0.1, 0.05), 0.4);
+    cmp = co.compressor_mono(8, -25, max(dec - 0.1, 0.05), 0.2);
 };
 
 cwbl(freq, gate) = cwblParams, freq, gate : cwblEngine;
