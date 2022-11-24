@@ -5,6 +5,13 @@
               cppLanguageStandard="20">
   <MAINGROUP id="AJSm28" name="drty-drums">
     <GROUP id="{155A8596-D559-6F1D-B76F-6DB2F5A60B16}" name="Source">
+      <GROUP id="{F476D5FB-4BB3-AEFB-D9BF-0EF9F409C939}" name="UI">
+        <FILE id="jhi3r8" name="PluginEditor.cpp" compile="1" resource="0"
+              file="Source/PluginEditor.cpp"/>
+        <FILE id="sEeBaq" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
+        <FILE id="MDllQL" name="Section.cpp" compile="1" resource="0" file="Source/Section.cpp"/>
+        <FILE id="cAmfPJ" name="Section.h" compile="0" resource="0" file="Source/Section.h"/>
+      </GROUP>
       <GROUP id="{D344CDF5-DD3F-7CC2-E48A-6C9A59A00C6D}" name="DSP">
         <FILE id="AgIsX8" name="DrumEngine.cpp" compile="1" resource="0" file="Source/DrumEngine.cpp"/>
         <FILE id="ugpQrW" name="DrumEngine.h" compile="0" resource="0" file="Source/DrumEngine.h"/>
@@ -17,9 +24,6 @@
             file="Source/PluginProcessor.cpp"/>
       <FILE id="DNHvir" name="PluginProcessor.h" compile="0" resource="0"
             file="Source/PluginProcessor.h"/>
-      <FILE id="jhi3r8" name="PluginEditor.cpp" compile="1" resource="0"
-            file="Source/PluginEditor.cpp"/>
-      <FILE id="sEeBaq" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
     </GROUP>
   </MAINGROUP>
   <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1" JUCE_VST3_CAN_REPLACE_VST2="0"/>

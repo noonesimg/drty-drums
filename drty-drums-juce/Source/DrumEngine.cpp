@@ -41,12 +41,12 @@ void DrumEngine::processBlock(int numSamples)
 void DrumEngine::setParameter(const char * path, float value)
 {
     fUI->setParamValue(path, value);
-    
 }
 
 void DrumEngine::parameterChanged(const juce::String& parameterID, float newValue)
 {
-    fUI->setParamValue(parameterID.toStdString(), newValue);
+    std::string paramId = parameterID.toStdString();
+    fUI->setParamValue(paramId, newValue);
 }
 
 

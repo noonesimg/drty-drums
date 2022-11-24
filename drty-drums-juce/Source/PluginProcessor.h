@@ -58,6 +58,8 @@ public:
     void setStateInformation (const void* data, int sizeInBytes) override;
     
     void setAudioValueTreeStateParameter(const char* id, float value);
+    
+    DrumEngine drumEngine{ parameters };
 public:
     juce::AudioProcessorValueTreeState valueTreeState{ *this,
                                                        nullptr,
@@ -67,7 +69,6 @@ public:
 private:
 
     DSPParameters parameters{ valueTreeState };
-    DrumEngine drumEngine{ parameters };
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (DrtydrumsAudioProcessor)
 };

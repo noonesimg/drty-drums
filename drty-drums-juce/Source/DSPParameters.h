@@ -28,24 +28,24 @@ namespace DSPParameterContants {
 
 	constexpr auto colorParamName = "color";
 	constexpr auto kickColorParamID = "kk_color";
-	constexpr auto sanreColorParamID = "snr_color";
+	constexpr auto snareColorParamID = "snr_color";
 	constexpr auto hihatColorParamID = "hh_color";
 	constexpr auto cowbellColorParamID = "cwbl_color";
 	
 	constexpr auto decayParamName = "decay";
 	constexpr auto kickDecayParamID = "kk_decay";
-	constexpr auto sanreDecayParamID = "snr_decay";
+	constexpr auto snareDecayParamID = "snr_decay";
 	constexpr auto hihatDecayParamID = "hh_decay";
 	constexpr auto cowbellDecayParamID = "cwbl_decay";
 
 	constexpr auto noiseParamName = "noise";
 	constexpr auto kickNoiseParamID = "kk_noise";
-	constexpr auto sanreNoiseParamID = "snr_noise";
+	constexpr auto snareNoiseParamID = "snr_noise";
 	constexpr auto hihatNoiseParamID = "hh_noise";
 
 	constexpr auto driveParamName = "drive";
 	constexpr auto kickDriveParamID = "kk_drive";
-	constexpr auto sanreDriveParamID = "snr_drive";
+	constexpr auto snareDriveParamID = "snr_drive";
 	constexpr auto hihatDriveParamID = "hh_drive";
 
 	constexpr auto detuneParamName = "detune";
@@ -53,7 +53,7 @@ namespace DSPParameterContants {
 
 	constexpr auto levelParamName = "level";
 	constexpr auto kickLevelParamID = "kk_lvl";
-	constexpr auto sanreLevelParamID = "snr_lvl";
+	constexpr auto snareLevelParamID = "snr_lvl";
 	constexpr auto hihatLevelParamID = "hh_lvl";
 	constexpr auto cowbellLevelParamID = "cwbl_lvl";
 

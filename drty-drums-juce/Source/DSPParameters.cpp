@@ -19,28 +19,28 @@ DSPParameters::DSPParameters(juce::AudioProcessorValueTreeState& valueTreeState)
     cowbellGate = valueTreeState.getRawParameterValue(cowbellGateParamID);
 
     kickColor = valueTreeState.getRawParameterValue(kickColorParamID);
-    snareColor = valueTreeState.getRawParameterValue(sanreColorParamID);
+    snareColor = valueTreeState.getRawParameterValue(snareColorParamID);
     hihatColor = valueTreeState.getRawParameterValue(hihatColorParamID);
     cowbellColor = valueTreeState.getRawParameterValue(cowbellColorParamID);
 
     kickDecay = valueTreeState.getRawParameterValue(kickDecayParamID);
-    snareDecay = valueTreeState.getRawParameterValue(sanreDecayParamID);
+    snareDecay = valueTreeState.getRawParameterValue(snareDecayParamID);
     hihatDecay = valueTreeState.getRawParameterValue(hihatDecayParamID);
     cowbellDecay = valueTreeState.getRawParameterValue(cowbellDecayParamID);
 
     kickNoise = valueTreeState.getRawParameterValue(kickNoiseParamID);
-    snareNoise = valueTreeState.getRawParameterValue(sanreNoiseParamID);
+    snareNoise = valueTreeState.getRawParameterValue(snareNoiseParamID);
     hihatNoise = valueTreeState.getRawParameterValue(hihatNoiseParamID);
 
     kickDrive = valueTreeState.getRawParameterValue(kickDriveParamID);
-    snareDrive = valueTreeState.getRawParameterValue(sanreDriveParamID);
+    snareDrive = valueTreeState.getRawParameterValue(snareDriveParamID);
     hihatDrive = valueTreeState.getRawParameterValue(hihatDriveParamID);
 
     cowbellDetune = valueTreeState.getRawParameterValue(cowbellDetuneParamID);
 
 
     kickLevel = valueTreeState.getRawParameterValue(kickLevelParamID);
-    snareLevel = valueTreeState.getRawParameterValue(sanreLevelParamID);
+    snareLevel = valueTreeState.getRawParameterValue(snareLevelParamID);
     hihatLevel = valueTreeState.getRawParameterValue(hihatLevelParamID);
     cowbellLevel = valueTreeState.getRawParameterValue(cowbellLevelParamID);
 
@@ -71,28 +71,28 @@ juce::AudioProcessorValueTreeState::ParameterLayout DSPParameters::makeLayout() 
     layout.add(std::make_unique<juce::AudioParameterBool>(cowbellGateParamID, gateParamName, false));
 
     layout.add(std::make_unique<juce::AudioParameterFloat>(kickColorParamID, colorParamName, 0, 1, 0));
-    layout.add(std::make_unique<juce::AudioParameterFloat>(sanreColorParamID, colorParamName, 0, 1, 0));
+    layout.add(std::make_unique<juce::AudioParameterFloat>(snareColorParamID, colorParamName, 0, 1, 0));
     layout.add(std::make_unique<juce::AudioParameterFloat>(hihatColorParamID, colorParamName, 0, 1, 0));
     layout.add(std::make_unique<juce::AudioParameterFloat>(cowbellColorParamID, colorParamName, 0, 1, 0));
 
     layout.add(std::make_unique<juce::AudioParameterFloat>(kickDecayParamID, decayParamName, 0, 1, 0));
-    layout.add(std::make_unique<juce::AudioParameterFloat>(sanreDecayParamID, decayParamName, 0, 1, 0));
+    layout.add(std::make_unique<juce::AudioParameterFloat>(snareDecayParamID, decayParamName, 0, 1, 0));
     layout.add(std::make_unique<juce::AudioParameterFloat>(hihatDecayParamID, decayParamName, 0, 1, 0));
     layout.add(std::make_unique<juce::AudioParameterFloat>(cowbellDecayParamID, decayParamName, 0, 1, 0));
 
     layout.add(std::make_unique<juce::AudioParameterFloat>(kickNoiseParamID, noiseParamName, 0, 1, 0));
-    layout.add(std::make_unique<juce::AudioParameterFloat>(sanreNoiseParamID, noiseParamName, 0, 1, 0));
+    layout.add(std::make_unique<juce::AudioParameterFloat>(snareNoiseParamID, noiseParamName, 0, 1, 0));
     layout.add(std::make_unique<juce::AudioParameterFloat>(hihatNoiseParamID, noiseParamName, 0, 1, 0));
 
     layout.add(std::make_unique<juce::AudioParameterFloat>(kickDriveParamID, driveParamName, 0, 1, 0));
-    layout.add(std::make_unique<juce::AudioParameterFloat>(sanreDriveParamID, driveParamName, 0, 1, 0));
+    layout.add(std::make_unique<juce::AudioParameterFloat>(snareDriveParamID, driveParamName, 0, 1, 0));
     layout.add(std::make_unique<juce::AudioParameterFloat>(hihatDriveParamID, driveParamName, 0, 1, 0));
 
     layout.add(std::make_unique<juce::AudioParameterFloat>(cowbellDetuneParamID, detuneParamName, 0, 1, 0));
 
 
     layout.add(std::make_unique<juce::AudioParameterFloat>(kickLevelParamID, levelParamName, 0, 1, 0));
-    layout.add(std::make_unique<juce::AudioParameterFloat>(sanreLevelParamID, levelParamName, 0, 1, 0));
+    layout.add(std::make_unique<juce::AudioParameterFloat>(snareLevelParamID, levelParamName, 0, 1, 0));
     layout.add(std::make_unique<juce::AudioParameterFloat>(hihatLevelParamID, levelParamName, 0, 1, 0));
     layout.add(std::make_unique<juce::AudioParameterFloat>(cowbellLevelParamID, levelParamName, 0, 1, 0));
 

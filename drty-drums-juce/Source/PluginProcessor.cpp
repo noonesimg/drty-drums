@@ -96,10 +96,7 @@ void DrtydrumsAudioProcessor::changeProgramName (int index, const juce::String& 
 void DrtydrumsAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
     drumEngine.prepare(sampleRate, samplesPerBlock);
-    valueTreeState.addParameterListener(DSPParameterContants::kickGateParamID, &drumEngine);
-    valueTreeState.addParameterListener(DSPParameterContants::snareGateParamID, &drumEngine);
-    valueTreeState.addParameterListener(DSPParameterContants::hihatGateParamID, &drumEngine);
-    valueTreeState.addParameterListener(DSPParameterContants::cowbellGateParamID, &drumEngine);
+    
 }
 
 void DrtydrumsAudioProcessor::releaseResources()
