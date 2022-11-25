@@ -15,6 +15,16 @@
 //==============================================================================
 /*
 */
+
+struct SectionElement {
+    const char* text;
+    const char* paramId;
+    int rowStart;
+    int colStart;
+    int rowSpan;
+    int colSpan;
+};
+
 class Section  : public juce::Component
 {
 public:
@@ -24,11 +34,13 @@ public:
     void paint (juce::Graphics&) override;
     void resized() override;
 
-    void addItem(juce::Component* item);
+    void addItem(juce::Component* item, SectionElement el);
     void addEmpty();
 
     int numRows = 3;
     int numColumns = 2;
+
+    std::vector<SectionElement> elements;
 
     std::vector<juce::Component*> items;
 

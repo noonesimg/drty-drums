@@ -40,8 +40,11 @@ private:
     Section cowbell{ "cowbell" };
 
     Section mixer{ "mixer" };
-    Section sends{ "sends" };
-    Section fx{ "fx" };
+    Section revSends{ "reverb sends" };
+    Section delSends{ "delay sends" };
+
+    Section delFx{ "delay" };
+    Section compFx{ "compressor" };
 
 
 
@@ -49,9 +52,9 @@ private:
     std::vector<std::unique_ptr<ButtonAttachment>> buttonAttachments;
     std::vector<std::unique_ptr<SliderAttachment>> sliderAttachments;
 
-    void addButtonToSection(const char* text, const char* paramId, Section& section);
-    void addKnobToSection(const char* paramId, Section& section);
-    void addSliderToSection(const char* paramId, Section& section);
+    void addButtonToSection(Section& section, SectionElement el);
+    void addKnobToSection(Section& section, SectionElement el);
+    void addSliderToSection(Section& section, SectionElement el);
 
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (DrtydrumsAudioProcessorEditor)

@@ -21,9 +21,10 @@ Section::~Section()
 {
 }
 
-void Section::addItem(juce::Component* item)
+void Section::addItem(juce::Component* item, SectionElement el)
 {
     addAndMakeVisible(item);
+    elements.push_back(el);
     items.push_back(item);
 }
 
@@ -56,6 +57,7 @@ void Section::resized()
 
     using Track = juce::Grid::TrackInfo;
     using Fr = juce::Grid::Fr;
+    using Span = juce::GridItem::Span;
 
     for (int i = 0; i < numRows; i++) {
         grid.templateRows.add(Track(Fr(1)));
@@ -65,14 +67,21 @@ void Section::resized()
         grid.templateColumns.add(Track(Fr(1)));
     }
 
+    int i = 0;
     for (auto comp : items) {
-        grid.items.add(juce::GridItem(comp));
+        auto el = elements.at(i);
+        grid.items.add(juce::GridItem(comp).withArea(
+            el.rowStart, 
+            el.colStart, 
+            Span(el.rowSpan), 
+            Span(el.colSpan)));
+        i++;
     }
 
     grid.performLayout(getLocalBounds()
         .withTrimmedLeft(10)
         .withTrimmedRight(10)
-        .withTrimmedTop(10)
+        .withTrimmedTop(15)
         .withTrimmedBottom(10));
 
 }
