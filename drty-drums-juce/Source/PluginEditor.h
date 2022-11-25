@@ -11,6 +11,7 @@
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
 #include "Section.h"
+#include "StyleSheet.h"
 
 //==============================================================================
 /**
@@ -55,6 +56,8 @@ private:
     void addButtonToSection(Section& section, SectionElement el);
     void addKnobToSection(Section& section, SectionElement el);
     void addSliderToSection(Section& section, SectionElement el);
+
+    juce::StyleSheet lookAndFeel;
 
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (DrtydrumsAudioProcessorEditor)

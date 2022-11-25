@@ -14,7 +14,8 @@ DrtydrumsAudioProcessorEditor::DrtydrumsAudioProcessorEditor (DrtydrumsAudioProc
     : AudioProcessorEditor (&p), audioProcessor (p)
 {
     setResizable(true, true);
-    
+    juce::LookAndFeel::setDefaultLookAndFeel(&lookAndFeel);
+
     mixer.numColumns = 4;
     mixer.numRows = 1;
     addSliderToSection(mixer, SectionElement{
@@ -89,7 +90,7 @@ DrtydrumsAudioProcessorEditor::DrtydrumsAudioProcessorEditor (DrtydrumsAudioProc
             1, 1, 1, 1
         });
     addKnobToSection(delFx, SectionElement{
-            "feedback", DSPParameterContants::delayRatioParamID,
+            "feedback", DSPParameterContants::delayFeedbackParamID,
             1, 2, 1, 1
         });
     addAndMakeVisible(delFx);
@@ -154,7 +155,7 @@ DrtydrumsAudioProcessorEditor::DrtydrumsAudioProcessorEditor (DrtydrumsAudioProc
             2, 1, 1, 1
         });
     addKnobToSection(hihat, SectionElement{
-            "drive", DSPParameterContants::snareDriveParamID,
+            "drive", DSPParameterContants::hihatDriveParamID,
             2, 2, 1, 1
         });
     addButtonToSection(hihat, SectionElement{
@@ -213,6 +214,7 @@ void DrtydrumsAudioProcessorEditor::addKnobToSection(Section& section, SectionEl
 {
     using namespace DSPParameterContants;
     auto* slider = new juce::Slider();
+    slider->setName(el.text);
     slider->setSliderStyle(juce::Slider::RotaryVerticalDrag);
     slider->setTextBoxStyle(juce::Slider::NoTextBox, false, 0, 0);
     slider->setRange(0, 1, 0.01);
@@ -239,14 +241,13 @@ void DrtydrumsAudioProcessorEditor::addSliderToSection(Section& section, Section
 
 DrtydrumsAudioProcessorEditor::~DrtydrumsAudioProcessorEditor()
 {
+    juce::LookAndFeel::setDefaultLookAndFeel(nullptr);
 }
 
 //==============================================================================
 void DrtydrumsAudioProcessorEditor::paint (juce::Graphics& g)
 {
-    auto bg = juce::Colour(20, 20, 20);
-    // (Our component is opaque, so we must completely fill the background with a solid colour)
-    g.fillAll (bg);
+    g.fillAll (BasicColors::bg);
 }
 
 void DrtydrumsAudioProcessorEditor::resized()

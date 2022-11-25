@@ -10,6 +10,7 @@
 
 #include <JuceHeader.h>
 #include "Section.h"
+#include "StyleSheet.h"
 
 //==============================================================================
 Section::Section(juce::String name)
@@ -30,10 +31,9 @@ void Section::addItem(juce::Component* item, SectionElement el)
 
 void Section::paint (juce::Graphics& g)
 {
-    auto bg = juce::Colour(20, 20, 20);
-    g.fillAll(bg);   // clear the background
+    g.fillAll(BasicColors::bg);
 
-    g.setColour(juce::Colours::darkgrey);
+    g.setColour(BasicColors::lines);
     g.drawRoundedRectangle(2, 2, getWidth() - 4, getHeight() - 4, 5, 2);
 
     auto font = juce::Font(20.f, juce::Font::plain);
@@ -44,16 +44,17 @@ void Section::paint (juce::Graphics& g)
 
     juce::Rectangle textArea{ 20, -3, labelWidth + 20, labelHeight };
     
-    g.setColour(bg);
+    g.setColour(BasicColors::bg);
     g.fillRect(textArea);
 
-    g.setColour(juce::Colours::white);
+    g.setColour(BasicColors::sectionText);
     g.drawText(name, textArea, juce::Justification::centred);
 }
 
 void Section::resized()
 {
     juce::Grid grid;
+    grid.setGap(juce::Grid::Px(5));
 
     using Track = juce::Grid::TrackInfo;
     using Fr = juce::Grid::Fr;

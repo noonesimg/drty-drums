@@ -11,6 +11,8 @@
         <FILE id="sEeBaq" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
         <FILE id="MDllQL" name="Section.cpp" compile="1" resource="0" file="Source/Section.cpp"/>
         <FILE id="cAmfPJ" name="Section.h" compile="0" resource="0" file="Source/Section.h"/>
+        <FILE id="VmmGW2" name="StyleSheet.cpp" compile="1" resource="0" file="Source/StyleSheet.cpp"/>
+        <FILE id="nO6epv" name="StyleSheet.h" compile="0" resource="0" file="Source/StyleSheet.h"/>
       </GROUP>
       <GROUP id="{D344CDF5-DD3F-7CC2-E48A-6C9A59A00C6D}" name="DSP">
         <FILE id="AgIsX8" name="DrumEngine.cpp" compile="1" resource="0" file="Source/DrumEngine.cpp"/>
