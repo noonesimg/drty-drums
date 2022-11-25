@@ -16,5 +16,4 @@ I'm planning to turn this into an opensource drum machine vst with JUCE and nati
   - [ ] responsive ui
   - [ ] midi to separate channels
   - [ ] midi learn
-  - [ ] add basic step sequencer
 - [ ] port to iOS using SwiftUI + AudioKit 
