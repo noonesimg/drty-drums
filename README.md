@@ -16,7 +16,6 @@ I'm planning to turn this into an opensource drum machine vst with JUCE and nati
 - [ ] JUCE app/vst3
   - [x] integrate faust engine
   - [x] responsive ui
-  - [ ] midi learn
   - [ ] preset manager
 - [ ] port to iOS using SwiftUI + AudioKit 
 
