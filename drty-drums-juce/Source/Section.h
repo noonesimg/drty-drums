@@ -43,8 +43,9 @@ public:
     std::vector<SectionElement> elements;
 
     std::vector<juce::Component*> items;
-
+    
 private:
     juce::String name;
+    juce::String componentName = "section";
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Section)
 };

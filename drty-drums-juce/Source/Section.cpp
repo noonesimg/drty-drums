@@ -24,6 +24,7 @@ Section::~Section()
 
 void Section::addItem(juce::Component* item, SectionElement el)
 {
+    setName(componentName);
     addAndMakeVisible(item);
     elements.push_back(el);
     items.push_back(item);

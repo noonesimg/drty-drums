@@ -17,6 +17,7 @@ namespace BasicColors {
     inline const auto shadow = juce::Colour(39, 45, 51);
     inline const auto knobDark = juce::Colour(27, 30, 34);
     inline const auto knobLight = juce::Colour(51, 64, 77);
+    inline const auto knobMedium = juce::Colour(37, 41, 49);
     inline const auto accent = juce::Colour(255, 187, 0);
     inline const auto accentDart = juce::Colour(255, 50, 0);
     inline const auto lines = juce::Colour(86, 102, 117);
@@ -32,6 +33,22 @@ namespace juce {
         void drawRotarySlider(Graphics&, int x, int y, int width, int height,
             float sliderPosProportional, float rotaryStartAngle,
             float rotaryEndAngle, Slider&) override;
+
+        void drawButtonBackground(Graphics& g, Button& button,
+            const Colour& backgroundColour,
+            bool shouldDrawButtonAsHighlighted,
+            bool shouldDrawButtonAsDown) override;
+        
+        void drawButtonText(Graphics& g,
+            TextButton& button,
+            bool shouldDrawButtonAsHighlighted,
+            bool shouldDrawButtonAsDown) override;
+
+        void drawLinearSlider(Graphics& g, int x, int y, int width, int height,
+            float sliderPos,
+            float minSliderPos,
+            float maxSliderPos,
+            const Slider::SliderStyle style, Slider& slider) override;
 
     };
 }

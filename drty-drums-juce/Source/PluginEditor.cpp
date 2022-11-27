@@ -229,6 +229,7 @@ void DrtydrumsAudioProcessorEditor::addSliderToSection(Section& section, Section
 {
     using namespace DSPParameterContants; 
     auto* slider = new juce::Slider();
+    slider->setName(el.text);
     slider->setSliderStyle(juce::Slider::LinearVertical);
     slider->setTextBoxStyle(juce::Slider::NoTextBox, false, 0, 0);
     slider->setRange(0, 1, 0.01);
