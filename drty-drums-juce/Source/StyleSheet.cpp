@@ -28,36 +28,41 @@ namespace juce {
         auto knobShadowBounds = bounds.reduced(10);
         auto knobShadowRadius = arcRadius - 5;
         
-        Path knobShadow;
-        knobShadow.addEllipse(knobShadowBounds.getCentreX() - knobShadowRadius,
-                              knobShadowBounds.getCentreY() - knobShadowRadius,
-                              knobShadowRadius * 2, knobShadowRadius * 2);
+        Rectangle<float> knobShadowRect{ 
+            knobShadowBounds.getCentreX() - knobShadowRadius, 
+            knobShadowBounds.getCentreY() - knobShadowRadius,
+            knobShadowRadius * 2, knobShadowRadius * 2
+        };
         
         g.setColour(BasicColors::shadow);
-        g.fillPath(knobShadow);
+        g.fillEllipse(knobShadowRect);
+
 
         // main dial circle
-        auto knobRadius = knobShadowRadius - 2.0;
+        float knobRadius = knobShadowRadius - 2.0;
 
-        Path knobCircle;
-        knobCircle.addEllipse(knobShadowBounds.getCentreX() - knobRadius,
-                              knobShadowBounds.getCentreY() - knobRadius,
-                              knobRadius * 2, knobRadius * 2);
+        Rectangle<float> knobRect{
+            knobShadowBounds.getCentreX() - knobRadius,
+            knobShadowBounds.getCentreY() - knobRadius,
+            knobRadius * 2, knobRadius * 2
+        };
+
         auto knobGradient = juce::ColourGradient::vertical(BasicColors::knobLight, 
                                                            knobShadowBounds.getCentreY() - knobRadius,
                                                            BasicColors::knobDark,
                                                            knobShadowBounds.getCentreY() + knobRadius);
         g.setGradientFill(knobGradient);
-        g.fillPath(knobCircle);
+        g.fillEllipse(knobRect);
 
         
         // main dial circle
-        auto knobCenterRadius = knobRadius / 1.2;
+        float knobCenterRadius = knobRadius / 1.2;
 
-        Path knobCenterCircle;
-        knobCenterCircle.addEllipse(knobShadowBounds.getCentreX() - knobCenterRadius,
-                                    knobShadowBounds.getCentreY() - knobCenterRadius,
-                                    knobCenterRadius * 2, knobCenterRadius * 2);
+        Rectangle<float> knobCenterRect {
+            knobShadowBounds.getCentreX() - knobCenterRadius,
+            knobShadowBounds.getCentreY() - knobCenterRadius,
+            knobCenterRadius * 2, knobCenterRadius * 2
+        };
         
         auto knobCenterGradient = juce::ColourGradient::vertical(BasicColors::knobLight,
                                                                  knobShadowBounds.getCentreY() + knobCenterRadius,
@@ -65,7 +70,7 @@ namespace juce {
                                                                  knobShadowBounds.getCentreY() - knobCenterRadius / 2);
 
         g.setGradientFill(knobCenterGradient);
-        g.fillPath(knobCenterCircle);
+        g.fillEllipse(knobCenterRect);
 
         // dial background path
         Path backgroundArc;
@@ -142,9 +147,6 @@ namespace juce {
         auto parent = button.getParentComponent();
         if (parent->getName() == "section")
         {
-            Path base;
-            base.addRoundedRectangle(bounds, cornerSize);
-
             auto baseGradient = juce::ColourGradient::vertical(BasicColors::knobLight, BasicColors::knobDark, bounds);
             if (shouldDrawButtonAsDown) {
                 g.setColour(BasicColors::knobMedium);
@@ -152,11 +154,8 @@ namespace juce {
             else {
                 g.setGradientFill(baseGradient);
             }
-
-            g.fillPath(base);
+            g.fillRoundedRectangle(bounds, cornerSize);
             
-            Path infill;
-            infill.addRoundedRectangle(infilBounds, cornerSize - 2);
 
             if (shouldDrawButtonAsDown) {
                 g.setColour(BasicColors::knobMedium);
@@ -165,20 +164,16 @@ namespace juce {
                 g.setColour(BasicColors::knobLight);
             }
 
-            g.fillPath(infill);
+            g.fillRoundedRectangle(infilBounds, cornerSize - 2);
 
             auto ledPoint = infilBounds.getCentre();
             auto ledBounds = juce::Rectangle<float>(ledPoint.getX() - 10, ledPoint.getY() + 15, 20, 5);
             auto ledBgBounds = ledBounds.reduced(-5);
             auto ledGradient = juce::ColourGradient::vertical(BasicColors::knobDark, BasicColors::knobLight, ledBgBounds);
 
-            Path ledBg;
-            ledBg.addRoundedRectangle(ledBgBounds, 7);
             g.setGradientFill(ledGradient);
-            g.fillPath(ledBg);
+            g.fillRoundedRectangle(ledBgBounds, 7);
 
-            Path led;
-            led.addRoundedRectangle(ledBounds, 3);
 
             if (shouldDrawButtonAsDown) {
                 g.setColour(BasicColors::accent);
@@ -189,7 +184,7 @@ namespace juce {
             else {
                 g.setColour(BasicColors::knobLight);
             }
-            g.fillPath(led);
+            g.fillRoundedRectangle(ledBounds, 3);
         }
         else
         {
@@ -269,23 +264,17 @@ namespace juce {
         g.setGradientFill(valueGradient);
         g.strokePath(valueTrack, { trackWidth, PathStrokeType::curved, PathStrokeType::rounded });
 
-        Path thumb;
         auto thumbRect = juce::Rectangle<float>(thumbWidth * 2, thumbWidth).withCentre(maxPoint);
         auto thumbGradient = juce::ColourGradient::vertical(BasicColors::knobLight, BasicColors::knobDark, thumbRect);
 
-        thumb.addRoundedRectangle(thumbRect, 2);
-
         g.setGradientFill(thumbGradient);
-        g.fillPath(thumb);
+        g.fillRoundedRectangle(thumbRect, 2);
 
-        Path thumbInner;
         auto thumbInnerRect = thumbRect.reduced(2);
         thumbGradient = juce::ColourGradient::vertical(BasicColors::knobMedium, BasicColors::knobLight, thumbInnerRect);
 
-        thumbInner.addRoundedRectangle(thumbInnerRect, 2);
-
         g.setGradientFill(thumbGradient);
-        g.fillPath(thumbInner);
+        g.fillRoundedRectangle(thumbInnerRect, 2);
 
         g.setColour(BasicColors::accent.interpolatedWith(BasicColors::accentDart, sliderPos / maxSliderPos));
         g.fillRoundedRectangle(thumbInnerRect.reduced(3), 2);

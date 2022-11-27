@@ -2,7 +2,7 @@
 
 <JUCERPROJECT id="AADMHa" name="drty-drums" projectType="audioplug" useAppConfig="0"
               addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1"
-              cppLanguageStandard="20">
+              cppLanguageStandard="20" pluginCharacteristicsValue="pluginIsSynth,pluginProducesMidiOut,pluginWantsMidiIn">
   <MAINGROUP id="AJSm28" name="drty-drums">
     <GROUP id="{155A8596-D559-6F1D-B76F-6DB2F5A60B16}" name="Source">
       <GROUP id="{F476D5FB-4BB3-AEFB-D9BF-0EF9F409C939}" name="UI">

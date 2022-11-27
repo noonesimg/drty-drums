@@ -20,6 +20,8 @@ Section::Section(juce::String name)
 
 Section::~Section()
 {
+    for (auto item : items)
+        delete item;
 }
 
 void Section::addItem(juce::Component* item, SectionElement el)

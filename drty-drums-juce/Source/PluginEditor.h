@@ -13,12 +13,15 @@
 #include "Section.h"
 #include "StyleSheet.h"
 
+
 //==============================================================================
 /**
 */
 class DrtydrumsAudioProcessorEditor  : public juce::AudioProcessorEditor
 {
 public:
+    using SliderStyle = juce::Slider::SliderStyle;
+
     DrtydrumsAudioProcessorEditor (DrtydrumsAudioProcessor&);
     ~DrtydrumsAudioProcessorEditor() override;
 
@@ -55,7 +58,7 @@ private:
 
     void addButtonToSection(Section& section, SectionElement el);
     void addKnobToSection(Section& section, SectionElement el);
-    void addSliderToSection(Section& section, SectionElement el);
+    void addSliderToSection(Section& section, SectionElement el, SliderStyle style = SliderStyle::RotaryVerticalDrag);
 
     juce::StyleSheet lookAndFeel;
 

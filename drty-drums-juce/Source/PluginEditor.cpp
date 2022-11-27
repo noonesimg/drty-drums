@@ -14,57 +14,60 @@ DrtydrumsAudioProcessorEditor::DrtydrumsAudioProcessorEditor (DrtydrumsAudioProc
     : AudioProcessorEditor (&p), audioProcessor (p)
 {
     setResizable(true, true);
+    setResizeLimits(540, 440, 1300, 940);
     juce::LookAndFeel::setDefaultLookAndFeel(&lookAndFeel);
 
+
+    // init mixer section
     mixer.numColumns = 4;
     mixer.numRows = 1;
     addSliderToSection(mixer, SectionElement{
             "kick", DSPParameterContants::kickLevelParamID, 
             1, 1, 1, 1
-        });
+        }, SliderStyle::LinearVertical);
     addSliderToSection(mixer, SectionElement{
             "snare", DSPParameterContants::snareLevelParamID,
             1, 2, 1, 1
-        });
+        }, SliderStyle::LinearVertical);
     addSliderToSection(mixer, SectionElement{
             "hihat", DSPParameterContants::hihatLevelParamID,
             1, 3, 1, 1
-        });
+        }, SliderStyle::LinearVertical);
     addSliderToSection(mixer, SectionElement{
             "cowbell", DSPParameterContants::cowbellLevelParamID,
             1, 4, 1, 1
-        });
+        }, SliderStyle::LinearVertical);
     addAndMakeVisible(mixer);
 
-
+    // init reverb send section
     revSends.numColumns = 3;
     revSends.numRows = 1;
-    addKnobToSection(revSends, SectionElement{
+    addSliderToSection(revSends, SectionElement{
             "snare", DSPParameterContants::snareReverbSendParamID,
             1, 1, 1, 1
         });
-    addKnobToSection(revSends, SectionElement{
+    addSliderToSection(revSends, SectionElement{
             "hihat", DSPParameterContants::hihatReverbSendParamID,
             1, 2, 1, 1
         });
-    addKnobToSection(revSends, SectionElement{
+    addSliderToSection(revSends, SectionElement{
             "cowbell", DSPParameterContants::cowbellReverbSendParamID,
             1, 3, 1, 1
         });
     addAndMakeVisible(revSends);
 
-
+    // init delay send section
     delSends.numColumns = 3;
     delSends.numRows = 1;
-    addKnobToSection(delSends, SectionElement{ 
+    addSliderToSection(delSends, SectionElement{
             "snare", DSPParameterContants::snareDelaySendParamID,
             1, 1, 1, 1
         });
-    addKnobToSection(delSends, SectionElement{
+    addSliderToSection(delSends, SectionElement{
             "hihat", DSPParameterContants::hihatDelaySendParamID,
             1, 2, 1, 1
         });
-    addKnobToSection(delSends, SectionElement{
+    addSliderToSection(delSends, SectionElement{
             "cowbell", DSPParameterContants::cowbellDelaySendParamID,
             1, 3, 1, 1
         });
@@ -72,43 +75,44 @@ DrtydrumsAudioProcessorEditor::DrtydrumsAudioProcessorEditor (DrtydrumsAudioProc
 
     compFx.numColumns = 2;
     compFx.numRows = 1;
-    addKnobToSection(compFx, SectionElement{
+    addSliderToSection(compFx, SectionElement{
             "attack", DSPParameterContants::compressorAttackParamID,
             1, 1, 1, 1
         });
-    addKnobToSection(compFx, SectionElement{
+    addSliderToSection(compFx, SectionElement{
             "threshold", DSPParameterContants::compressorThresholdParamID,
             1, 2, 1, 1
         });
     addAndMakeVisible(compFx);
 
-
+    // init delay settings section
     delFx.numColumns = 2;
     delFx.numRows = 1;
-    addKnobToSection(delFx, SectionElement{
+    addSliderToSection(delFx, SectionElement{
             "ratio", DSPParameterContants::delayRatioParamID,
             1, 1, 1, 1
         });
-    addKnobToSection(delFx, SectionElement{
+    addSliderToSection(delFx, SectionElement{
             "feedback", DSPParameterContants::delayFeedbackParamID,
             1, 2, 1, 1
         });
     addAndMakeVisible(delFx);
 
 
-    addKnobToSection(kick, SectionElement{
+    // init kick settings section
+    addSliderToSection(kick, SectionElement{
             "decay", DSPParameterContants::kickDecayParamID,
             1, 1, 1, 1
         });
-    addKnobToSection(kick, SectionElement{
+    addSliderToSection(kick, SectionElement{
             "color", DSPParameterContants::kickColorParamID,
             1, 2, 1, 1
         });
-    addKnobToSection(kick, SectionElement{
+    addSliderToSection(kick, SectionElement{
             "noise", DSPParameterContants::kickNoiseParamID,
             2, 1, 1, 1
         });
-    addKnobToSection(kick, SectionElement{
+    addSliderToSection(kick, SectionElement{
             "drive", DSPParameterContants::kickDriveParamID,
             2, 2, 1, 1
         });
@@ -118,20 +122,20 @@ DrtydrumsAudioProcessorEditor::DrtydrumsAudioProcessorEditor (DrtydrumsAudioProc
         });
     addAndMakeVisible(kick);
 
-
-    addKnobToSection(snare, SectionElement{
+    // init snare settings section
+    addSliderToSection(snare, SectionElement{
             "decay", DSPParameterContants::snareDecayParamID,
             1, 1, 1, 1
         });
-    addKnobToSection(snare, SectionElement{
+    addSliderToSection(snare, SectionElement{
             "color", DSPParameterContants::snareColorParamID,
             1, 2, 1, 1
         });
-    addKnobToSection(snare, SectionElement{
+    addSliderToSection(snare, SectionElement{
             "noise", DSPParameterContants::snareNoiseParamID,
             2, 1, 1, 1
         });
-    addKnobToSection(snare, SectionElement{
+    addSliderToSection(snare, SectionElement{
             "drive", DSPParameterContants::snareDriveParamID,
             2, 2, 1, 1
         });
@@ -141,20 +145,20 @@ DrtydrumsAudioProcessorEditor::DrtydrumsAudioProcessorEditor (DrtydrumsAudioProc
         });
     addAndMakeVisible(snare);
 
-
-    addKnobToSection(hihat, SectionElement{
+    // init hihat settings section
+    addSliderToSection(hihat, SectionElement{
             "decay", DSPParameterContants::hihatDecayParamID,
             1, 1, 1, 1
         });
-    addKnobToSection(hihat, SectionElement{
+    addSliderToSection(hihat, SectionElement{
             "color", DSPParameterContants::hihatColorParamID,
             1, 2, 1, 1
         });
-    addKnobToSection(hihat, SectionElement{
+    addSliderToSection(hihat, SectionElement{
             "noise", DSPParameterContants::hihatNoiseParamID,
             2, 1, 1, 1
         });
-    addKnobToSection(hihat, SectionElement{
+    addSliderToSection(hihat, SectionElement{
             "drive", DSPParameterContants::hihatDriveParamID,
             2, 2, 1, 1
         });
@@ -164,16 +168,16 @@ DrtydrumsAudioProcessorEditor::DrtydrumsAudioProcessorEditor (DrtydrumsAudioProc
         });
     addAndMakeVisible(hihat);
 
-
-    addKnobToSection(cowbell, SectionElement{
+    // init cowbell settings section
+    addSliderToSection(cowbell, SectionElement{
             "decay", DSPParameterContants::cowbellDecayParamID,
             1, 1, 1, 1
         });
-    addKnobToSection(cowbell, SectionElement{
+    addSliderToSection(cowbell, SectionElement{
             "color", DSPParameterContants::cowbellColorParamID,
             1, 2, 1, 1
         });
-    addKnobToSection(cowbell, SectionElement{
+    addSliderToSection(cowbell, SectionElement{
             "detune", DSPParameterContants::cowbellDetuneParamID,
             2, 1, 1, 2
         });
@@ -210,27 +214,12 @@ void DrtydrumsAudioProcessorEditor::addButtonToSection(Section& section, Section
     section.addItem(btn, el);
 }
 
-void DrtydrumsAudioProcessorEditor::addKnobToSection(Section& section, SectionElement el)
-{
-    using namespace DSPParameterContants;
-    auto* slider = new juce::Slider();
-    slider->setName(el.text);
-    slider->setSliderStyle(juce::Slider::RotaryVerticalDrag);
-    slider->setTextBoxStyle(juce::Slider::NoTextBox, false, 0, 0);
-    slider->setRange(0, 1, 0.01);
-    section.addItem(slider, el);
-
-    sliderAttachments.push_back(std::make_unique<SliderAttachment>(audioProcessor.valueTreeState, el.paramId, *slider));
-    audioProcessor.valueTreeState.addParameterListener(el.paramId, &audioProcessor.drumEngine);
-    slider->setValue(audioProcessor.drumEngine.getParameter(el.paramId));
-}
-
-void DrtydrumsAudioProcessorEditor::addSliderToSection(Section& section, SectionElement el)
+void DrtydrumsAudioProcessorEditor::addSliderToSection(Section& section, SectionElement el, SliderStyle style)
 {
     using namespace DSPParameterContants; 
     auto* slider = new juce::Slider();
     slider->setName(el.text);
-    slider->setSliderStyle(juce::Slider::LinearVertical);
+    slider->setSliderStyle(style);
     slider->setTextBoxStyle(juce::Slider::NoTextBox, false, 0, 0);
     slider->setRange(0, 1, 0.01);
     section.addItem(slider, el);
